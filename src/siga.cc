@@ -104,15 +104,20 @@ void Siga::LerCSV(string arquivo_csv)
 
 int  Siga::PesquisaPorMatricula(int matricula)
 {
-    // TODO: implementar pesquisa por matrícula
-    // Posicione o cursor para o inicio do arquivo:
-    // Para i = 0 até n_estudante
-    //    Ler estudante na posição corrente no arquivo
-    //    Testar se é a matricula procurada, se afirmativo
-    //    retorne a posiçao i.
-    // Fim-Para
-    // Coloque o cursor para o final do arquivo
-    // retorne -1
+   this->file_stream.seekg(0, this->file_stream.beg);
+
+    for (int i = 0; i < this->ObterNumeroEstudantes(); i++)
+    {
+        Estudante est;
+        this->file_stream.read((char *)&est, sizeof(Estudante));
+        if (est.ObterMatricula() == matricula)
+        {
+            cout << "Posiçao estudante:" << i << endl;
+            return i;
+        }
+    }
+
+    cout << "o estudante nao foi encontrado!" << endl;
     return -1;
 }
         
