@@ -118,12 +118,14 @@ int  Siga::PesquisaPorMatricula(int matricula)
         
 void Siga::AdicionaEstudante(Estudante est)
 {
-    // TODO: Implementar cadastro de estudante
-    // Passos:
-    // Testar se est já foi cadastrado
-    // Se já cadastrado, retorne sem fazer nada   
-    // Caso Contrário, adicione o estudante no final do arquivobinário
-    // e incremente o numero de estudantes
+    if (this->PesquisaPorMatricula(est.ObterMatricula()) != -1)
+    {
+        cout << "O estudante ja foi cadastrado" << endl;
+        return;
+    }
+
+    this->EscrevaEstudante(this->n_estudantes, est);
+    this->n_estudantes++;
     
 }
   
