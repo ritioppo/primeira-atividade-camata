@@ -149,29 +149,44 @@ Estudante Siga::ObterEstudante(int idx)
         
 void Siga::SalvaCSV(string arquivo_csv)
 {
-    string arquivo_csv_path = INPUT_DATA_DIR+arquivo_csv;
-    // TODO: implementar salvamento de arquivo CSV
-    // Passos:
-    // Abrir arquivo CSV
-    // Escrever cabeçalho
-    // Posicione o cursor para o inicio do arquivo binário
-    // Para cada linha de dados
-    //    Ler um estudante do arquivo binário
-    //    Escrever o objeto estudante no arquivo CSV
-    // Fim-Para
-    // Fechar arquivo CSV
+    string arquivo_csv_path = INPUT_DATA_DIR + arquivo_csv;
+
+    ofstream csv_file;
+
+    csv_file.open(arquivo_csv_path);
+
+    if (!csv_file.is_open())
+    {
+        cout << "Não foi possivel abrir o arquivo" << endl;
+        return;
+    }
+
+    csv_file << "Nome,Matricula,AnoIngresso,IRA" << endl;
+
+    this->file_stream.seekg(0, this->file_stream.beg);
+
+    for (int i = 0; i < this->ObterNumeroEstudantes(); i++)
+    {
+        Estudante est;
+        this->file_stream.read((char *)&est, sizeof(Estudante));
+        csv_file << est.ObterNome() << "/" << est.ObterMatricula() << "/" << est.ObterAnoIngresso() << "/" << est.ObterIRA() << endl;
+    }
+
+    csv_file.close();
+    cout << this->n_estudantes << "estudantes registrados" << endl;
+
+    return;
    
 }
         
         
 void Siga::AlteraCadastroEstudante(int idx, Estudante est)
 {
-    // TODO: implementar alteração de cadastro de estudante
-    // Passos:
-    // Posicione o cursor para o inicio do arquivo
-    // Posicione o cursor para a posição idx
-    // Escreva o estudante na posição idx
-    // Saia da função
+    this->file_stream.seekg(0, this->file_stream.beg);
+    this->file_stream.seekg(idx * sizeof(Estudante), this->file_stream.beg);
+    this->file_stream.write((char *)&est, sizeof(Estudante));
+
+    return;
 }
         
 Siga::~Siga()
