@@ -130,11 +130,13 @@ void Siga::AdicionaEstudante(Estudante est)
 Estudante Siga::ObterEstudante(int idx)
 {
     Estudante est;
-    // TODO: implementar obter estudante
-    // Posicione o cursor para o inicio do arquivo
-    // Posicione o cursor para a posição idx
-    // Leia o estudante na posição idx
-    // Retorne o estudante
+    
+    this->file_stream.seekg(0, this->file_stream.beg);
+
+    this->file_stream.seekg(idx * sizeof(Estudante), this->file_stream.beg);
+
+    this->file_stream.read((char *)&est, sizeof(Estudante));
+
     return est;
 }
         
